@@ -18,7 +18,12 @@ CREATE TABLE tasks (
 ) ENGINE INNODB;
 
 INSERT INTO tasks (userid, category, title, content, due_date, priority, completed) VALUES 
-(1, 'Cat', 'title', 'content', '2022-05-16', 1, false);
+(1, 'Cat', 'title', 'content', '2022-05-16', 1, 0);
 
 INSERT INTO tasks (userid, category, title, content, due_date, priority, completed) VALUES 
-(1, 'Cat', 'Title', 'Content', '2022-05-16', 2, false)
+(1, 'Cat', 'Title', 'Content', '2022-05-16', 2, false) 
+
+UPDATE tasks 
+SET category ='$category', title='$title', content='$content',
+due_date='$due_date', priority=$priority, completed=$completed
+WHERE userid=$userid AND taskid=$taskid;
