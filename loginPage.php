@@ -1,18 +1,24 @@
 <?php //loginPage.php   
     require_once 'login.php';
-    echo "loginPage.php<br/><hr/>";
-    echo "<h1>Task Master</h1>";
-    
+
     echo <<< _END
     <style> 
     .offscreen {position: absolute; left: -9999px;} 
     .onscreen {position: relative;}
     p {margin: 0;}
+    .container { 
+        max-width: 480px;
+        margin: 20px auto 20px auto;}
     </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
     <title> Login Page</title>
+    <body>
     _END;
 
+    echo "<div style='text-align: center;'><h1>Task Master</h1></div>";
     $connection = new mysqli($hn, $un, $pw, $db);
 
     if ($connection->connect_error) {
@@ -21,8 +27,8 @@
     else {
         session_start();
         if( isset($_SESSION['userid'])) {
-            echo "Hi ".$_SESSION['username'].", you are now logged in!<br/>";
-            echo "<p><a href=homepage.php>Click here to continue</a></p><br/>";
+            echo "<div class='container'> <h3>Hi ".$_SESSION['username'].", you are now logged in!</h3>";
+            echo "<h3><a href=homepage.php>Click here to continue</a></h3></div>";
         }
         else {
             
@@ -38,7 +44,7 @@
         
                     if (!$result) 
                     {
-                        echo "Something went wrong. Please Try again!";
+                        echo "<h3 class='container'>Something went wrong. Please Try again!</h3>";
                     }
                     elseif ($result->num_rows) {
                         $row = $result->fetch_array(MYSQLI_NUM);
@@ -49,8 +55,9 @@
                             $_SESSION['username'] = $row[1];
                             $_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
                             $_SESSION['check'] = hash('ripemd128', $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
-                            echo "Hi $row[1], you are now logged in!<br/>";
-                            echo "<p><a href=homepage.php>Click here to continue</a></p><br/>";
+
+                            echo "<div class='container'><h3>Hi $row[1], you are now logged in!</h3>";
+                            echo "<h3><a href=homepage.php>Click here to continue</a></h3><br/></div>";
                         }
                         else 
                         {
@@ -131,6 +138,7 @@
         $connection->close();
     }
 
+    echo "</body>";
     function validatePassword($pw)
     {
         $passwordRegex = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/";
@@ -139,7 +147,7 @@
 
     function validateUsername($un)
     {
-        $nameRegex = "/^[a-z,A-Z,0-9]{1,24}$/";
+        $nameRegex = "/^[a-z,A-Z,0-9]{4,24}$/";
         return preg_match($nameRegex, $un) === 1;
     }
 
@@ -153,22 +161,23 @@
     {
         echo <<<_END
         <hr/>
-        <pre>
-        █░░ █▀█ █▀▀ █ █▄░█
-        █▄▄ █▄█ █▄█ █ █░▀█
-        </pre>
+        <div class="container">
+        <h1 style="text-align: center;">Login</h1>
         _END;
 
         echo <<< _END
         <form action="loginPage.php" method="post">
-        <pre>
+        <div class="form-group">
         <label for="login_userid">Username</label>
-        <input type="text" id="login_userid" name="login_userid" value="" value="" placeholder="Enter Username" required>
+        <input type="text" class="form-control" id="login_userid" name="login_userid" value="" value="" placeholder="Enter Username" required>
+        </div>
+        <div class="form-group">
         <label for="login_password">Password</label>
-        <input type="password" id="login_password" name="login_password" value="" placeholder="Enter Password" required>
-        <input type="submit" id="login_submitBtn" name="loginBtn" value="Login">
-        </pre>
+        <input type="password" class="form-control" id="login_password" name="login_password" value="" placeholder="Enter Password" required>
+        </div>
+        <input type="submit" id="login_submitBtn" class="btn btn-primary" name="loginBtn" value="Login">
         </form>
+        </div>
         _END;
     }
 
@@ -176,57 +185,157 @@
     {
         echo <<< _END
         <hr/>
-        <pre>
-        █▀█ █▀▀ █▀▀ █ █▀ ▀█▀ █▀█ ▄▀█ ▀█▀ █ █▀█ █▄░█
-        █▀▄ ██▄ █▄█ █ ▄█ ░█░ █▀▄ █▀█ ░█░ █ █▄█ █░▀█
-        </pre>
+        <div class="container">
+        <h1 style="text-align: center;">Login</h1>
         _END;
 
-        echo <<< _END
+        echo <<<_END
         <form action="loginPage.php" method="post">
-        <pre>
+        <div class="form-group">
         <b><label for="register_username">Username</label></b>
-        <p id='register_username' class="offscreen"> Username must be under 24 characters and contain only alphanumeric characters. </p>
-        <input type="text" id="register_username" name="register_username" value="" size='50' placeholder='Enter a Username' required>
-        
+        <p id='register_username_info' class="offscreen"> Username must be under between 4-24 characters and contain only alphanumeric characters. </p>
+        <input type="text" class="form-control" id="register_username" name="register_username" value="" size='50' placeholder='Enter a Username' required>
+        </div>
+        <div class="form-group">
         <b><label for="register_email">Email</label></b>
         <p id='register_email_info' class="offscreen"> Please enter a valid email. </p>
-        <input type="email" id='register_email_textbox' name="register_email" value="" size='50' placeholder='Enter Email' required>
-        
+        <input type="email" class="form-control" id='register_email_textbox' name="register_email" value="" size='50' placeholder='Enter Email' required>
+        </div>
+        <div class="form-group">
         <b><label for="register_password">Password</label></b> 
         <p id='register_password_info' class="offscreen">Password should be at least 8 characters and contain at least <br/>1 Upper case, 1 Lower case, 1 number, and 1 special character. </p>
-        <input type="password" id='register_password_textbox' name="register_password" value="" size='50' placeholder='Enter Password' required>
-        <input type="submit" id='registerBtn' name="registerBtn" value="Register">
-        </pre>
+        <input type="password" class="form-control" id='register_password_textbox' name="register_password" value="" size='50' placeholder='Enter Password' required>
+        </div>
+        <input type="submit" id='registerBtn' class="btn btn-info" name="registerBtn" value="Register">
         </form>
+        </div>
+        <script>
+        (() => {
+            var elRegisterUsername = document.getElementById('register_username');
+            var elRegisterUsernameInfo = document.getElementById('register_username_info');
+            var usernameValid = false;
+            var emailValid = false;
+            var passwordValid = false;
+        
+            elRegisterUsername.addEventListener('keyup', (e) => {  
+                console.log(e.target.value);
+                if( !validateUsername(e.target.value) )
+                {   
+                    console.log("Not Valid Full Name");
+                    usernameValid = false;
+                    elRegisterUsernameInfo.classList.remove('offscreen');
+                    elRegisterUsernameInfo.classList.add('onscreen');
+                }
+                else
+                {
+                    console.log("Valid Full Name");
+                    usernameValid = true;
+                    elRegisterUsernameInfo.classList.remove('onscreen');
+                    elRegisterUsernameInfo.classList.add('offscreen');
+                }
+                toggleDisableRegisterForm();
+            });
+        
+            var elRegisterEmail = document.getElementById('register_email_textbox');
+            var elRegisterEmailInfo = document.getElementById('register_email_info');
+            elRegisterEmail.addEventListener('keyup', (e) => {  
+                console.log(e.target.value.toLowerCase());
+                if( !validateEmail(e.target.value) )
+                {   
+                    console.log("Not Valid Email");
+                    emailValid = false;
+                    elRegisterEmailInfo.classList.remove('offscreen');
+                    elRegisterEmailInfo.classList.add('onscreen');
+                }
+                else
+                {
+                    console.log("Valid Email");
+                    emailValid = true;
+                    elRegisterEmailInfo.classList.remove('onscreen');
+                    elRegisterEmailInfo.classList.add('offscreen');
+                }
+                toggleDisableRegisterForm();
+            });
+        
+            var elRegisterPassword = document.getElementById('register_password_textbox');
+            var elRegisterPasswordInfo = document.getElementById('register_password_info');
+            elRegisterPassword.addEventListener('keyup', (e) => {  
+                console.log(e.target.value);
+                if( !validatePassword(e.target.value) )
+                {   
+                    console.log("Not Valid Password");
+                    passwordValid = false;
+                    elRegisterPasswordInfo.classList.remove('offscreen');
+                    elRegisterPasswordInfo.classList.add('onscreen');
+                }
+                else
+                {
+                    console.log("Valid Password");
+                    passwordValid = true;
+                    elRegisterPasswordInfo.classList.remove('onscreen');
+                    elRegisterPasswordInfo.classList.add('offscreen');
+                }
+                toggleDisableRegisterForm();
+            });
+        
+            function validateUsername(username) {
+                const unRegex = /^[A-Z,a-z,0-9]{4,24}$/;
+                return unRegex.test(username);
+            }
+        
+            function validateEmail(email) {
+                const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return emailRegex.test(email);
+            }
+        
+            function validatePassword(password) {
+                const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+                return passwordRegex.test(password);
+            }
+        
+            var elRegisterSubmitBtn = document.getElementById('registerBtn');
+            elRegisterSubmitBtn.disabled=true;
+            function toggleDisableRegisterForm() {
+                if(usernameValid && emailValid && passwordValid)
+                {
+                    elRegisterSubmitBtn.disabled = false;
+                }
+                else
+                {
+                    elRegisterSubmitBtn.disabled = true;
+                }
+            }
+        }) ();
+        </script>
         _END;
     }
 
     function displaySignInBtn()
     {
+        echo "<div class='container'>";
         echo "Already have an account, click the sign in button below! <br/>";
 
         echo <<< _END
         <form action="loginPage.php" method="post">
-        <pre> <input type="hidden" name="signInBtnClicked" value="yes">
-        <input type="submit" name="signInBtn" value="Sign In">
-        </pre>
+        <input type="hidden" name="signInBtnClicked" value="yes">
+        <input type="submit" class="btn btn-primary" name="signInBtn" value="Sign In">
         </form>
         _END;
+        echo "</div>";
     }
 
     function displaySignUpBtn()
     {
+        echo "<div class='container'>";
         echo "Don't have an account? Click the register button below! <br/>";
 
         echo <<< _END
         <form action="loginPage.php" method="post">
-        <pre>
         <input type="hidden" name="signUpBtnClicked" value="yes">
-        <input type="submit" name="signUpBtn" value="Sign Up">
-        </pre>
+        <input type="submit" class="btn btn-info" name="signUpBtn" value="Sign Up">
         </form>
         _END;
+        echo "</div>";
     }
 
 

@@ -5,19 +5,18 @@
         private $title;
         private $content;
         private $due_date;
-        private $priority; //1 = low, 2 = Medium, 3 = High
-        private $priorityList = array("Low", "Medium", "High");
+        private $status; //1 = Not Started, 2 = In Progress, 3 = Completed
+        private $statusList = array("Not Started", "In Progress", "Completed");
         private $completed;
     
         public function __construct(string $category, string $title, 
                                     string $content, string $due_date, 
-                                    int $priority, bool $completed = false) {
+                                    int $status) {
             $this->category = $category;
             $this->title = $title;
             $this->content = $content;
             $this->due_date = $due_date;
-            $this->priority = $priority;
-            $this->completed = $completed;
+            $this->status = $status;
         }
         
         public function getCategory()
@@ -36,13 +35,13 @@
         {
             return $this->due_date;
         }
-        public function getPriority()
+        public function getStatus()
         {
-            return $this->priority;
+            return $this->status;
         }
-        public function getPriorityAsString()
+        public function getStatusAsString()
         {
-            return $this->priorityList[ $this->priority - 1 ];
+            return $this->statusList[ $this->status - 1 ];
         }
         public function getCompleted()
         {
@@ -61,11 +60,9 @@
             Title:    $this->title<br/>
             Content:  $this->content<br/>
             Due Date: $this->due_date<br/>
-            Priority: $this->priority<br/>
+            Status: $this->status<br/>
             _END;
-            echo "PriorityAsString: ".$this->priorityList[$this->priority - 1]."<br/>";
-            echo "Completed: ";
-            echo ($this->completed)? "true": "false"."<br/>";
+            echo "StatusAsString: ".$this->statusList[$this->status - 1]."<br/>";
         }       
 
     }

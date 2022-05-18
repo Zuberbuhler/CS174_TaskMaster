@@ -12,8 +12,7 @@ CREATE TABLE tasks (
     title VARCHAR(80) NOT NULL,
     content VARCHAR(500) NOT NULL,
     due_date DATE NOT NULL,
-    priority VARCHAR(6) NOT NULL,
-    completed BOOLEAN NOT NULL,
+    status int NOT NULL,
     FOREIGN KEY (userid) REFERENCES users (userid) ON DELETE CASCADE
 ) ENGINE INNODB;
 
@@ -24,6 +23,6 @@ INSERT INTO tasks (userid, category, title, content, due_date, priority, complet
 (1, 'Cat', 'Title', 'Content', '2022-05-16', 2, false) 
 
 UPDATE tasks 
-SET category ='$category', title='$title', content='$content',
-due_date='$due_date', priority=$priority, completed=$completed
-WHERE userid=$userid AND taskid=$taskid;
+SET category ='$Cat_2', title='Title_2', content='Content_2',
+due_date='2022-05-20', priority=3, completed=1
+WHERE userid=1 AND taskid=26;
