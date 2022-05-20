@@ -362,7 +362,7 @@
             
                 
                 var elUpdateSubmitBtn = document.getElementById('updateTaskButton');
-                elUpdateSubmitBtn.disabled=true;
+                elUpdateSubmitBtn.disabled=false;
                 function toggleDisableUpdateForm() {
                     if(dueDateValid && categoryValid && titleValid && contentValid)
                     {
