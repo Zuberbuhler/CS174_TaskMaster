@@ -186,7 +186,7 @@
         echo <<< _END
         <hr/>
         <div class="container">
-        <h1 style="text-align: center;">Login</h1>
+        <h1 style="text-align: center;">Sign Up</h1>
         _END;
 
         echo <<<_END
@@ -206,7 +206,7 @@
         <p id='register_password_info' class="offscreen">Password should be at least 8 characters and contain at least <br/>1 Upper case, 1 Lower case, 1 number, and 1 special character. </p>
         <input type="password" class="form-control" id='register_password_textbox' name="register_password" value="" size='50' placeholder='Enter Password' required>
         </div>
-        <input type="submit" id='registerBtn' class="btn btn-info" name="registerBtn" value="Register">
+        <input type="submit" id='registerBtn' class="btn btn-info" name="registerBtn" value="Sign Up">
         </form>
         </div>
         <script>
@@ -313,7 +313,7 @@
     function displaySignInBtn()
     {
         echo "<div class='container'>";
-        echo "Already have an account, click the sign in button below! <br/>";
+        echo "Account created successfully, click the button below to log in! <br/>";
 
         echo <<< _END
         <form action="loginPage.php" method="post">
@@ -327,7 +327,7 @@
     function displaySignUpBtn()
     {
         echo "<div class='container'>";
-        echo "Don't have an account? Click the register button below! <br/>";
+        echo "Don't have an account? Click the button below to sign up! <br/>";
 
         echo <<< _END
         <form action="loginPage.php" method="post">
