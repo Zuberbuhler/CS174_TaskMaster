@@ -1,3 +1,5 @@
+-- Code by Matthew Zuberbuhler & Karan Sharma --
+
 CREATE TABLE users (
     userid INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(32) NOT NULL UNIQUE,
@@ -15,14 +17,3 @@ CREATE TABLE tasks (
     status int NOT NULL,
     FOREIGN KEY (userid) REFERENCES users (userid) ON DELETE CASCADE
 ) ENGINE INNODB;
-
-INSERT INTO tasks (userid, category, title, content, due_date, priority, completed) VALUES 
-(1, 'Cat', 'title', 'content', '2022-05-16', 1, 0);
-
-INSERT INTO tasks (userid, category, title, content, due_date, priority, completed) VALUES 
-(1, 'Cat', 'Title', 'Content', '2022-05-16', 2, false) 
-
-UPDATE tasks 
-SET category ='$Cat_2', title='Title_2', content='Content_2',
-due_date='2022-05-20', priority=3, completed=1
-WHERE userid=1 AND taskid=26;

@@ -1,4 +1,4 @@
-<?php //loginPage.php   
+<?php //loginPage.php   Code by Matthew Zuberbuhler & Karan Sharma
     require_once 'login.php';
 
     echo <<< _END
@@ -36,6 +36,8 @@
                 // checks if login successful and sets cookie
                 $un_temp = mysql_entities_fix_string($connection, $_POST['login_userid']);
                 $pw_temp = mysql_entities_fix_string($connection, $_POST['login_password']);
+
+                $un_temp = strtolower($un_temp);
         
                 if(validateUsername($un_temp) && validatePassword($pw_temp))
                 {
@@ -68,7 +70,9 @@
                     }
                     else 
                     {
-                        echo "Failed to signin!<br/>";
+                        echo "Credentials Incorrect or Account May Not Exist!<br/>";
+                        displaySignInForm();
+                        displaySignUpBtn();
                     }
                 }
                 else {
@@ -82,6 +86,7 @@
                 $email_temp = mysql_entities_fix_string($connection, $_POST['register_email']);
                 $pw_temp = mysql_entities_fix_string($connection, $_POST['register_password']);
                 
+                $un_temp = strtolower($un_temp);
                 $email_temp = strtolower($email_temp);
 
                 if(validateUsername($un_temp) && validateEmail($email_temp) && validatePassword($pw_temp))
@@ -95,12 +100,12 @@
                     {
                         echo "Something went wrong during registration, try again!<br/>";
                         displayRegisterForm();
-                        displaySignInBtn();
+                        displaySignInBtn(false);
                     }
                     elseif($result->num_rows > 0) {
                         echo "This account may already be registered, try to login!<br/>";
                         displayRegisterForm();
-                        displaySignInBtn();
+                        displaySignInBtn(false);
                     }
                     else {
                         $query = "INSERT INTO users (username, email, token)".
@@ -111,23 +116,23 @@
                         {
                             echo $connection->error;
                             displayRegisterForm();
-                            displaySignInBtn();
+                            displaySignInBtn(false);
                         }
                         else {
                             echo "Registered Successful!<br/>";
-                            displaySignInBtn();
+                            displaySignInBtn(true);
                         }
                     }
                 } else {
                     echo "An error occurred when registering<br/>";
                     displayRegisterForm();
-                    displaySignInBtn();
+                    displaySignInBtn(false);
                 }
             }
             else {
                 if(isset($_POST['signUpBtnClicked'])) {
                     displayRegisterForm();
-                    displaySignInBtn();
+                    displaySignInBtn(false);
                 }
                 else {
                     displaySignInForm();
@@ -310,10 +315,16 @@
         _END;
     }
 
-    function displaySignInBtn()
+    function displaySignInBtn($justRegisteredFlag)
     {
         echo "<div class='container'>";
-        echo "Account created successfully, click the button below to log in! <br/>";
+        if($justRegisteredFlag)
+        {
+            echo "Account created successfully, click the button below to log in! <br/>";
+        }
+        else {
+            echo "Already have an account? Click the button below to log in! <br/>";
+        }
 
         echo <<< _END
         <form action="loginPage.php" method="post">

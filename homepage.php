@@ -1,4 +1,4 @@
-<?php // firstPage.php
+<?php // firstPage.php Code by Matthew Zuberbuhler & Karan Sharma
     require_once 'login.php';
     require_once 'Task.php';
 
